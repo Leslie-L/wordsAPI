@@ -32,8 +32,8 @@ async (req,res)=>{
 router.post('/',
 validatorHandler(createWord,'body'),
 (req,res)=>{
-  const{word, len} = req.body;
-  res.status(201).json({
+
+  res.status(200).json({
     word,
     len
   })
@@ -43,10 +43,12 @@ validatorHandler(createWord,'body'),
 router.patch('/:id',
 validatorHandler(getWord,'params'),
 validatorHandler(updateWord,'body'),
-(req,res)=>{
+async (req,res)=>{
  const {id} = req.params
-
-  res.status(201).json(id)
+ const body = req.body;
+ const answer = await wordService.update(id,body)
+ if(answer)
+  res.status(200).json(body)
 })
 
 router.delete('/:id',

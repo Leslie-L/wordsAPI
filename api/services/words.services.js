@@ -27,9 +27,15 @@ class WordService {
   }
   async create(wordn,len){
 
+
   }
   async update(id,body){
-
+    try{
+      const res = await Word.findOneAndUpdate({_id:id},body)
+      return res;
+    }catch(error){
+      throw new Error(error)
+    }
   }
   async delete(id){
 
