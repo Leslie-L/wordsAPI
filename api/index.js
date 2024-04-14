@@ -1,3 +1,4 @@
+const mongoose =  require('mongoose')
 const express =  require("express")
 const PORT = process.env.PORT || 3005;
 const routerApi = require('./routes');
@@ -15,7 +16,10 @@ app.get('/',(req,res)=>{
 })
 
 routerApi(app);
+mongoose.connect(process.env.DB)
+  .then(() =>{
+    app.listen(PORT,()=>{
+      console.log('server on')
+    })
+  });
 
-app.listen(PORT,()=>{
-  console.log('server on')
-})

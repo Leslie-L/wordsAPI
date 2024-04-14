@@ -5,18 +5,30 @@ const {
   updateWord,
   getWord
 } = require('./../schemas/words.schemas')
+const WordService= require('./../services/words.services')
+
 
 const router = express.Router()
+const wordService = new WordService();
 
-router.get('/',(req,res)=>{
-res.send('todas')
+
+router.get('/',async (req,res)=>{
+  const answer =await wordService.getAll()
+  if(answer){
+   res.status(200).json(answer)
+  }else{
+    res.status(404)
+  }
 })
+
 router.get('/:id',
 validatorHandler(getWord,'params'),
-(req,res)=>{
+async (req,res)=>{
  const {id} = req.params
- res.status(201).json(id)
+ const doc = await wordService.getOne(id)
+ res.status(200).json(doc)
 })
+
 router.post('/',
 validatorHandler(createWord,'body'),
 (req,res)=>{
