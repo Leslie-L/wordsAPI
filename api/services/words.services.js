@@ -25,8 +25,13 @@ class WordService {
     }
 
   }
-  async create(wordn,len){
-
+  async create(body){
+    try {
+      const res = await Word.create(body)
+      return res
+    } catch (error) {
+      throw new Error(error)
+    }
 
   }
   async update(id,body){
@@ -38,7 +43,12 @@ class WordService {
     }
   }
   async delete(id){
-
+    try{
+      const answer = await Word.findByIdAndDelete(id)
+      return answer
+    }catch(error){
+      throw new Error(error);
+    }
   }
 
 

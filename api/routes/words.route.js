@@ -31,12 +31,10 @@ async (req,res)=>{
 
 router.post('/',
 validatorHandler(createWord,'body'),
-(req,res)=>{
-
-  res.status(200).json({
-    word,
-    len
-  })
+async (req,res)=>{
+  const body = req.body;
+  const answer = await wordService.create(body)
+  res.status(201).json(answer)
 
 })
 
@@ -53,9 +51,14 @@ async (req,res)=>{
 
 router.delete('/:id',
 validatorHandler(getWord,'params'),
-(req,res)=>{
- const {id} = req.params
-  res.status(201).json(id)
+async (req,res)=>{
+ try {
+  const {id} = req.params
+  const answer = await wordService.delete(id)
+  res.status(200).json(answer)
+ } catch (error) {
+  res.status(500)
+ }
 })
 
 module.exports = router
