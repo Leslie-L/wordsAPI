@@ -6,8 +6,10 @@ function validatorHandler(schema, property) {
       res.status(404).json({
         message:error
       })
+    }else{
+      next();
+
     }
-    next();
   }
 }
 
