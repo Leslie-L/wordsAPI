@@ -1,20 +1,47 @@
 const express = require('express')
+const validatorHandler = require('./../middlewares/validator.handler');
+const {
+  createWord,
+  updateWord,
+  getWord
+} = require('./../schemas/words.schemas')
+
 const router = express.Router()
 
 router.get('/',(req,res)=>{
 res.send('todas')
 })
-router.get('/:id',(req,res)=>{
-  res.send('una')
+router.get('/:id',
+validatorHandler(getWord,'params'),
+(req,res)=>{
+ const {id} = req.params
+ res.status(201).json(id)
 })
-router.post('/',(req,res)=>{
-  res.send('agregar')
+router.post('/',
+validatorHandler(createWord,'body'),
+(req,res)=>{
+  const{word, len} = req.body;
+  res.status(201).json({
+    word,
+    len
+  })
+
 })
-router.patch('/',(req,res)=>{
-  res.send('modificar')
+
+router.patch('/:id',
+validatorHandler(getWord,'params'),
+validatorHandler(updateWord,'body'),
+(req,res)=>{
+ const {id} = req.params
+
+  res.status(201).json(id)
 })
-router.delete('/',(req,res)=>{
-  res.send('eliminar')
+
+router.delete('/:id',
+validatorHandler(getWord,'params'),
+(req,res)=>{
+ const {id} = req.params
+  res.status(201).json(id)
 })
 
 module.exports = router
