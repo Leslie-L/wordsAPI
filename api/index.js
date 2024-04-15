@@ -27,3 +27,4 @@ mongoose.connect(process.env.DB)
     })
   });
 
+  module.exports = app
